@@ -139,8 +139,9 @@ module.exports = (robot) ->
                      , "")
                    else
                      "#{name} has #{score} points."
-
-    msg.send reasonString
+    # get who asked
+    user = msg.message.user.name
+    robot.send({user: {name: user}}, reasonString)
 
   robot.respond /(top|bottom) (\d+)/i, (msg) ->
     amount = parseInt(msg.match[2]) || 10
@@ -158,7 +159,9 @@ module.exports = (robot) ->
       graphSize = Math.min(tops.length, Math.min(amount, 20))
       message.splice(0, 0, clark(_.first(_.pluck(tops, "score"), graphSize)))
 
-    msg.send message.join("\n")
+    # get who asked
+    user = msg.message.user.name
+    robot.send({user: {name: user}}, message.join("\n"))
 
   robot.router.get "/#{robot.name}/normalize-points", (req, res) ->
     scoreKeeper.normalize((score) ->
