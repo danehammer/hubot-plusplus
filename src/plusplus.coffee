@@ -141,7 +141,7 @@ module.exports = (robot) ->
                      "#{name} has #{score} points."
     # get who asked
     user = msg.message.user.name
-    robot.send({user: {name: user}}, reasonString)
+    robot.send {room: user}, reasonString
 
   robot.respond /(top|bottom) (\d+)/i, (msg) ->
     amount = parseInt(msg.match[2]) || 10
@@ -161,7 +161,7 @@ module.exports = (robot) ->
 
     # get who asked
     user = msg.message.user.name
-    robot.send({user: {name: user}}, message.join("\n"))
+    robot.send {room: user}, message.join("\n")
 
   robot.router.get "/#{robot.name}/normalize-points", (req, res) ->
     scoreKeeper.normalize((score) ->
